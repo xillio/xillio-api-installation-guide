@@ -10,7 +10,7 @@ This orchestrator is built into Docker so there is no need to install more softw
 
 The Docker package for Ubuntu is called `docker-ce`.
 We recommend that you have a fresh installation of the latest version of Docker.
-For the complete installation manual for Docker on Ubuntu, see: https://docs.docker.com/install/linux/docker-ce/ubuntu
+For the complete installation manual for Docker on Ubuntu, see: https://docs.docker.com/install/linux/docker-ce/ubuntu.
 
 == Initialize a Docker Swarm
 

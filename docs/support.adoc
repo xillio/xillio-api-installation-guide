@@ -17,13 +17,13 @@ works but we support and test on *Ubuntu 18.04.1 LTS*.
 |===
 |Software |Version |Notes
 
-| Ubuntu
+| Ubuntu Server
 | 18.04.1 LTS
-| Other Docker-compatible distributions may work but we recommend Ubuntu. Download: https://www.ubuntu.com/download/server
+| Other Docker-compatible distributions may work but we recommend Ubuntu Server, which you can download here: https://www.ubuntu.com/download/server.
 
 | Docker
 | 18.03 or higher
-| Install Docker CE on Ubuntu: https://docs.docker.com/install/linux/docker-ce/ubuntu
+| Install Docker CE on Ubuntu: https://docs.docker.com/install/linux/docker-ce/ubuntu.
 
 |===
 
