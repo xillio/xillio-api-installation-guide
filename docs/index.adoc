@@ -13,6 +13,9 @@ If secure tenant separation is needed and no custom authorization logic is used,
 :leveloffset: +1
 
 include::support.adoc[]
+
 include::installation.adoc[]
+
+include::architecture.adoc[]
 
 :leveloffset: -1
