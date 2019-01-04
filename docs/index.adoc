@@ -11,6 +11,8 @@ Single-tenant mode is generally recommended since it is easier to set up and use
 If secure tenant separation is needed and no custom authorization logic is used, then the multi-tenant mode can be used.
 
 :leveloffset: +1
+
 include::support.adoc[]
 include::installation.adoc[]
+
 :leveloffset: -1
