@@ -1,3 +1,4 @@
+[#architecture]
 = Xillio API Architecture
 
 The Xillio API is a modular system.
