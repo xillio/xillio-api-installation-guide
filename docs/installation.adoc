@@ -21,7 +21,7 @@ Every swarm requires at least one active manager to operate.
 
 === Initialize the Swarm Manager
 
-To create a swarm you login in to the _manager_ and run:
+To initialize a swarm, log in on the _manager_ and run:
 
 [source,bash]
 ----
