@@ -18,7 +18,7 @@ The core functionality of Xillio API is powered by the Xillio Engine service.
 This service contains all connectors and the REST API.
 Because of its design, you can run many of these services in parallel at the same time.
 
-IMPORTANT: This is a required service, as it is the entrypoint for all operations.
+NOTE: This is a required service, as it is the entrypoint for all operations.
 
 == Content Script Agent
 
@@ -52,7 +52,7 @@ These are all run in the Docker swarm so there is no need to install them.
 To expose Xillio API as a single service we employ an HTTP load balancer and proxy combination.
 Our preferred technology is Traefik, a lightweight load balancer which can be automatically configured through Docker and scales with your swarm.
 
-IMPORTANT: This is a required service.
+NOTE: This is a required service.
 
 [#postgresql]
 === PostgreSQL
@@ -62,7 +62,7 @@ In this database we store tenants, users, target system configuration, content s
 We do *NOT* use this database to store any documents or metadata about those documents.
 You could even opt to not store any target system credentials by using our https://docs.xill.io/#_passthrough_authorization[Passthrough Authorization] feature.
 
-IMPORTANT: This is a required service.
+NOTE: This is a required service.
 
 [#rabbitmq]
 === RabbitMQ
