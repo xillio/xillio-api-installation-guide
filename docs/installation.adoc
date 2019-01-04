@@ -9,7 +9,7 @@ This orchestrator is built into Docker so there is no need to install more softw
 == Install Docker
 
 The Docker package for Ubuntu is called `docker-ce`.
-It used to be called differently so if you have installed Docker before we advise you to uninstall that version.
+We recommend that you have a fresh installation of the latest version of Docker.
 For the complete installation manual for Docker on Ubuntu, see: https://docs.docker.com/install/linux/docker-ce/ubuntu
 
 == Initialize a Docker Swarm
@@ -49,7 +49,7 @@ $ docker swarm join --token <token> 10.1.10.175:2377
 [[assign-storage-label]]
 === Assign a Storage Node
 
-The PostgreSQL database requires persisted storage.
+The PostgreSQL database requires persistent storage.
 The easiest way to achieve this is by locking it to a specific server.
 Docker swarm has a _label_ mechanism which allows you to assign labels to nodes in the swarm and do placement logic based on those labels.
 
