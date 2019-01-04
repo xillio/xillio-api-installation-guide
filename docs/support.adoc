@@ -1,4 +1,4 @@
-[[support]]
+[#support]
 = Support
 
 For the latest version of the api and connector documentation you can visit https://docs.xill.io. While creating your
@@ -9,7 +9,7 @@ https://support.xill.io/support/tickets/new.
 
 == Supported Platforms
 
-Xillio API is only supported on Linux-based operating systems. Because it runs on docker generally any Linux distribution which runs docker
+Xillio API is only supported on Linux-based operating systems. Because it runs on Docker generally any Linux distribution which runs Docker
 works but we support and test on *Ubuntu 18.04.1 LTS*.
 
 .Platform Requirements
@@ -19,7 +19,7 @@ works but we support and test on *Ubuntu 18.04.1 LTS*.
 
 | Ubuntu
 | 18.04.1 LTS
-| Other docker-compatible distributions may work but we recommend Ubuntu. Download: https://www.ubuntu.com/download/server
+| Other Docker-compatible distributions may work but we recommend Ubuntu. Download: https://www.ubuntu.com/download/server
 
 | Docker
 | 18.03 or higher

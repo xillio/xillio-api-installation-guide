@@ -3,11 +3,15 @@ Xillio <support@xillio.com>
 
 Next to being available in the cloud, the Xillio API can also be installed on-premise. This manual helps you navigate the steps required to install Xillio API on your premises.
 
-NOTE: To complete this manual you *need access to our docker repositories*.
+NOTE: To complete this manual you *need access to our Docker repositories*.
 If you do not yet have this access and are interested in running the Xillio API on-premise, please contact our <<support>>.
 
+The Xillio API can be set up in 2 ways: for a single tenant or for multiple tenants.
+Single-tenant mode
+This mode is generally recommended since it is easier to set up and use.
+If secure tenant separation is needed and no custom authorization logic is used then the multi-tenant mode can be used.
+
 :leveloffset: +1
-
 include::support.adoc[]
-
+include::installation.adoc[]
 :leveloffset: -1

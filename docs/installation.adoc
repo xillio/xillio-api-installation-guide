@@ -1,0 +1,73 @@
+[#prerequisites]
+= Prerequisites
+
+The Xillio API runs within Docker.
+This means Docker is the only required software since all other dependencies can be launched from Docker.
+To orchestrate all services across one or more servers we use Docker in swarm mode.
+This orchestrator is built into Docker so there is no need to install more software.
+
+== Install Docker
+
+The Docker package for Ubuntu is called `docker-ce`.
+It used to be called differently so if you have installed Docker before we advise you to uninstall that version.
+For the complete installation manual for Docker on Ubuntu, see: https://docs.docker.com/install/linux/docker-ce/ubuntu
+
+== Initialize a Docker Swarm
+
+A swarm knows two roles: _manager_ and _worker_.
+A _manager_ monitors the current state of the swarm and attempts to make changes to ensure it matches the desired state of the swarm.
+A _worker_ blindly executes the work it was assigned by the managers.
+Every swarm requires at least one active manager to operate.
+
+=== Initialize the Swarm Manager
+
+To create a swarm you login in to the _manager_ and run:
+
+[source,bash]
+----
+$ docker swarm init
+Swarm initialized: current node (7rr85wqqwluzav2iekd2rry7g) is now a manager.
+To add a worker to this swarm, run the following command:
+    docker swarm join --token <token> 10.1.10.175:2377
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+----
+
+In the output `<token>` will be a long, seemingly random string.
+This token can be used to add _workers_ to the swarm, as seen in the next step.
+The IP address shown here as `10.1.10.175:2377` will be the IP address of the server.
+
+=== Add Swarm Workers
+
+If you have more than one server, run the following command on every _worker_.
+Make sure to replace `<token>` and the IP address with the token and address from the previous step.
+
+[source,bash]
+----
+$ docker swarm join --token <token> 10.1.10.175:2377
+----
+
+[[assign-storage-label]]
+=== Assign a Storage Node
+
+The PostgreSQL database requires persisted storage.
+The easiest way to achieve this is by locking it to a specific server.
+Docker swarm has a _label_ mechanism which allows you to assign labels to nodes in the swarm and do placement logic based on those labels.
+
+Connect to the manager and run:
+
+[source,bash]
+----
+$ docker node ls
+ID                          HOSTNAME         STATUS AVAILABILITY MANAGER STATUS
+mq9hagc82bfa2re2hbq1n11zx   swarm-worker-01  Ready  Active
+7rr85wqqwluzav2iekd2rry7g * swarm-manager-01 Ready  Active       Leader
+----
+
+Then add the `storage` label to your desired storage node.
+
+[source,bash]
+----
+docker node update swarm-worker-01 --label-add storage=true
+----
+
+Your swarm is now ready for work.
