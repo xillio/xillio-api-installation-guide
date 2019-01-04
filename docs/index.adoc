@@ -1,4 +1,13 @@
-= Xillio API Installation Manual
+= Xillio API Installation Guide
 Xillio <support@xillio.com>
 
-PLACEHOLDER
+Next to being available in the cloud, the Xillio API can also be installed on-premise. This guide helps you navigate the steps required to install Xillio API on your premises.
+
+NOTE: To complete this guide you *need access to our docker repositories*.
+If you do not yet have this access and are interested in running the Xillio API on-premise, please contact our <<support>>.
+
+:leveloffset: +1
+
+include::support.adoc[]
+
+:leveloffset: -1

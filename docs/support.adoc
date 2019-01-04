@@ -1,0 +1,52 @@
+[[support]]
+= Support
+
+For the latest version of the api and connector documentation you can visit https://docs.xill.io. While creating your
+deployment you will be able to choose whether or not you want to install the documentation for your version as well.
+
+For any support inquiries you can either contact support@xill.io or create a ticket at
+https://support.xill.io/support/tickets/new.
+
+== Supported Platforms
+
+Xillio API is only supported on Linux-based operating systems. Because it runs on docker generally any Linux distribution which runs docker
+works but we support and test on *Ubuntu 18.04.1 LTS*.
+
+.Platform Requirements
+[cols="1,1,3"]
+|===
+|Software |Version |Notes
+
+| Ubuntu
+| 18.04.1 LTS
+| Other docker-compatible distributions may work but we recommend Ubuntu. Download: https://www.ubuntu.com/download/server
+
+| Docker
+| 18.03 or higher
+| Install Docker CE on Ubuntu: https://docs.docker.com/install/linux/docker-ce/ubuntu
+
+|===
+
+== Hardware Requirements
+
+Hardware requirements vary wildly depending on the desired throughput. The hardware requirements we list here are minimal
+requirements which you need to create a basic integration. For scraping, indexing and search use-cases we recommend you
+create an infrastructure and test the load before deploying to production.
+
+.Hardware Requirements
+|===
+|Type |Requirement
+
+| CPU
+| 4 cores (2.8+ GHz)
+
+| Architecture
+| x84_64/amd64
+
+| Memory
+| 8GB
+
+| Disk Space
+| 60GB
+
+|===
