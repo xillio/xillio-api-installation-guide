@@ -29,7 +29,7 @@ works but we support and test on *Ubuntu 18.04.1 LTS*.
 
 == Hardware Requirements
 
-Hardware requirements vary wildly depending on the desired throughput. The hardware requirements we list here are minimal
+Hardware requirements vary widely depending on the desired throughput. The hardware requirements we list here are minimal
 requirements which you need to create a basic integration. For scraping, indexing and search use-cases we recommend you
 create an infrastructure and test the load before deploying to production.
 
