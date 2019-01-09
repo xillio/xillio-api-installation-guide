@@ -19,7 +19,7 @@ The core functionality of Xillio API is powered by the Xillio Engine service.
 This service contains all connectors and the REST API.
 Because of its design, you can run many of these services in parallel at the same time.
 
-NOTE: This is a required service, as it is the entrypoint for all operations.
+NOTE: This is a required service, as it is the entry point for all operations.
 
 == Content Script Agent
 
@@ -29,7 +29,7 @@ If this service is used, then the <<rabbitmq>> service is also required.
 
 Depending on your throughput you can scale this agent up.
 Every agent can run one script at a time and is extremely lightweight.
-If you expect to making about 20 calls a second, we recommend you run 15 to 20 agents.
+If you expect to make about 20 calls a second, we recommend you run 15 to 20 agents.
 
 == Xillio Admin Portal
 
@@ -59,7 +59,7 @@ NOTE: This is a required service.
 === PostgreSQL
 
 Xillio API requires PostgreSQL to store its configuration.
-In this database we store tenants, users, target system configuration, content scripts, etc...
+In this database, we store tenants, users, target system configuration, content scripts, etc...
 We do *NOT* use this database to store any documents or metadata about those documents.
 You could even opt to not store any target system credentials by using our https://docs.xill.io/#_passthrough_authorization[Passthrough Authorization] feature.
 

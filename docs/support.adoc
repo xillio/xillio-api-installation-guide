@@ -1,10 +1,10 @@
 [#support]
 = Support
 
-For the latest version of the API and connector documentation you can visit https://docs.xill.io. While creating your
+For the latest version of the API and connector documentation, you can visit https://docs.xill.io. While creating your
 deployment you will be able to choose whether or not you want to install the documentation for your version as well.
 
-For any support inquiries you can either contact support@xill.io or create a ticket at
+For any support inquiries, you can either contact support@xill.io or create a ticket at
 https://support.xill.io/support/tickets/new.
 
 == Supported Platforms
