@@ -7,36 +7,28 @@
 
 In order to deploy the Xillio API with minimal configuration, consider the stack file below:
 
-IMPORTANT: Copying the `REPLACE_ME` values without changing them is a critical security issue!
+CAUTION: Copying the `REPLACE_ME` values without changing them is a critical security issue!
 
-// TODO: Maybe also add Traefik
-
+.stack.yml
 [source,yaml,subs="attributes"]
 ----
-version: '3'
-
-services:
-  engine:
-    image: xillio/xillio-engine:2.2.15
-    ports:
-      - "8080:8080"
-    environment:
-     spring.datasource.url: jdbc:postgresql://postgres:5432/xillio-engine
-     spring.datasource.username: xillio_engine
-     spring.datasource.password: REPLACE_ME
-     engine.token-signing-key: REPLACE_ME
-     engine.single-tenant-mode: "true"
-
- postgres:
-   image: postgres:10.5
-   environment:
-     POSTGRES_USER: xillio_engine
-     POSTGRES_PASSWORD: REPLACE_ME
-     POSTGRES_DB: xillio-engine
+include::stack.yml[]
 ----
-
 
 // TODO: Explain yml and fields & step-by-step installation guide.
 
-// TODO Add additional deployment information regarding additional features
+In order to deploy the stack file above, run the following command on the manager node:
+
+[source,bash]
+----
+$ sudo docker stack deploy xillio --compose-file stack.yml --prune --with-registry-auth
+Creating network xillio_default
+Creating service xillio_postgres
+Creating service xillio_proxy
+Creating service xillio_engine
+----
+
+
+
+// TODO Add additional deployment information regarding additional features -- Docs, Multi-tenancy, Script Agent
 

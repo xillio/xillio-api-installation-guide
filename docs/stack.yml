@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+  proxy:
+    image: traefik:1.6
+    ports:
+    - 80:80
+    - 8080:8080
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    command:
+      --api
+      --docker
+      --docker.swarmmode=true
+      --docker.exposedbydefault
+    deploy:
+      placement:
+        constraints:
+        - node.role == manager
+
+  engine:
+    image: xillio/xillio-engine:2.2.15
+    deploy:
+      replicas: 2
+      labels:
+        traefik.port: 8080
+        traefik.api.frontend.rule: PathPrefix:/v2
+        traefik.oauth.frontend.rule: PathPrefix:/oauth
+    environment:
+      spring.datasource.url: jdbc:postgresql://postgres:5432/xillio-engine
+      spring.datasource.username: xillio_engine
+      spring.datasource.password: REPLACE_ME
+      engine.token-signing-key: REPLACE_ME
+      engine.single-tenant-mode: "true"
+
+  postgres:
+    image: postgres:10.5
+    deploy:
+      placement:
+        constraints:
+        - node.labels.storage == true
+    environment:
+      POSTGRES_USER: xillio_engine
+      POSTGRES_PASSWORD: REPLACE_ME
+      POSTGRES_DB: xillio-engine
+      command: -c 'shared_buffers=512MB' -c 'max_connections=400'
