@@ -22,19 +22,49 @@ include::stack.yml[]
 
 Some lines in this stack file need some additional elaboration or configuration.
 
-.Platform Requirements
 [cols="2,6"]
 |===
 | Stack file line | Elaboration
 
-| proxy.ports
+| `proxy.ports`
 | All traffic goes through port 80. Port 8080 exposes Traefik's dashboard to overview your proxy. *Note that the dashboard
 does not require a login.*
 
 | `proxy.deploy.placements.constraints`
 | It is required for Traefik to run on a manager as the proxy is the entry point for all requests, so is the manager node.
 
-// TODO: Explain yml and fields
+| `engine.image`
+| The image of Xillio Engine to use. We recommend using the latest release which can be found on
+https://api.xill.io/v2/system/version or on https://cloud.docker.com/u/xillio/repository/docker/xillio/xillio-engine.
+In order to be given access to these images, please contact <<support>>.
+
+| `engine.deploy.replicas`
+| The amount of instances of Xillio Engine you would like to run. Increase this according to the amount of load.
+*Must be at least 1.*
+
+| `engine.environment.spring.datasource.username`
+| The username of the PostgreSQL instance as configured at `postgres.environment.POSTGRES_USER`.
+
+| `engine.environment.spring.datasource.password`
+| The password of the PostgreSQL instance as configured at `postgres.environment.POSTGRES_PASSWORD`.
+
+| `engine.environment.engine.token-signing-key`
+| The Xillio Engine works with JWT access tokens which have to be signed by the server. A string has to be provided
+which will be used to sign these tokens.  *We highly recommend you to change this value* to a random string with a
+length of 50 to 70 characters.
+
+| `engine.environment.engine.single-tenant-mode`
+| This boots the Xillio Engine in single tenant mode. We recommend this using this unless you need a multitenancy system.
+// TODO: Add reference to additional feature configuration multitenancy.
+
+| `postgres.environment.POSTGRES_USER`
+| The username to access the postgres instance with.
+
+| `postgres.environment.POSTGRES_PASSWORD`
+| The username to access the postgres instance with. *We highly recommend you to change this value.*
+
+| `postgres.environment.command`
+| We require PostgreSQL to expose more connection than default in order to limit throttling by the Xillio API on high loads.
 
 |===
 
@@ -73,7 +103,7 @@ execute:
 ----
 $ docker service ls
 ID                  NAME                MODE                REPLICAS            IMAGE                         PORTS
-vwfmazh43t67        xillio_engine       replicated          2/2                 xillio/xillio-engine:2.2.15
+vwfmazh43t67        xillio_engine       replicated          2/2                 xillio/xillio-engine:2.2.16
 ub4o6wdbqzhm        xillio_postgres     replicated          1/1                 postgres:10.5
 pu7zepl225lo        xillio_proxy        replicated          1/1                 traefik:1.6                   *:80->80/tcp, *:8080->8080/tcp
 
