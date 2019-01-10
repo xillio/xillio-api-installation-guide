@@ -12,7 +12,9 @@ The Docker package for Ubuntu is called `docker-ce`.
 We recommend that you have a fresh installation of the latest version of Docker.
 For the complete installation manual for Docker on Ubuntu, see https://docs.docker.com/install/linux/docker-ce/ubuntu.
 
-NOTE: We allowed the user on the manager node to run Docker commands with root privileges. You can achieve this by executing `sudo usermod -aG docker $(whoami)`. This does require logging out and back in for this user.
+NOTE: We allowed the user on the manager node to run Docker commands with root privileges.
+You can achieve this by executing `sudo usermod -aG docker $(whoami)`. This does require logging out and back
+in for this user.
 
 == Initialize a Docker Swarm
 
@@ -81,5 +83,13 @@ have access to our Docker repositories. In order to do so run:
 
 [source, bash]
 ----
-docker login
+$ docker login
+Login with your Docker ID to push and pull images from Docker Hub. If you
+don't have a Docker ID, head over to https://hub.docker.com to create one.
+Username: mruser
+Password:
+Login Succeeded
 ----
+
+TIP: By default, docker will store your credentials in a file in your home directory. If you want to prevent this you can
+configure a credential helper: https://docs.docker.com/engine/reference/commandline/login/#credentials-store

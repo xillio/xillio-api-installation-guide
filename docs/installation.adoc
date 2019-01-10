@@ -54,10 +54,17 @@ Once all services have the desired amount on replicas, Xillio API should be up a
 overview at `http://{{manager-IP}}:8080/`. Browse http://{{manager-IP}}/v2/system/version in order to verify whether
 Xillio API booted correctly.
 
-[install-additional-features]
+[#install-additional-features]
 == Install Additional Features
 
-// TODO Add additional deployment information regarding additional features -- Docs, Multi-tenancy, Script Agent
+As described in <<architecture>>, there are more services which expose additional features. These features are not
+present by default and need to be enabled. This requires additional configuration.
+
+// TODO: === Documentation
+
+// TODO: === Content Scripts
+
+// TODO: === Multitenancy
 
 == Troubleshooting
 
