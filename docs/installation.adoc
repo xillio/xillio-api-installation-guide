@@ -1,7 +1,7 @@
 [#installation]
 = Installation Manual
 
-In order to install Xillio API on your premises, you first have to setup the <<minimal-configuration>>. On top of that,
+In order to install Xillio API on your premises, you first have to set up the <<minimal-configuration>>. On top of that,
 it is possible to <<configure-additional-features>> to your liking. Once everything is configured, you are ready to
 <<deploy-xillio-api>>.
 
@@ -76,7 +76,25 @@ With the stack file configured, you can either <<configure-additional-features>>
 As described in <<architecture>>, there are more services which expose additional features. These features are not
 present by default and need to be enabled. This requires additional configuration.
 
-// TODO: === Documentation
+=== Documentation
+
+It is possible to also host the reference documentation belong to the Xillio Engine version used. In order to do so,
+add the following section to the `stack.yml` file:
+
+NOTE: Note that the version used in `docs.image` should be the same as used in `engine.image`.
+
+.stack.yml
+[source,yaml,subs="attributes"]
+----
+  docs:
+    image: xillio/xillio-engine-docs:2.2.16
+        deploy:
+          labels:
+            traefik.port: 80
+            traefik.docs.frontend.rule: PathPrefix:/docs
+----
+
+The documentation can now be found on the path `/docs`.
 
 // TODO: === Content Scripts
 
