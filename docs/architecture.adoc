@@ -21,6 +21,7 @@ Because of its design, you can run many of these services in parallel at the sam
 
 NOTE: This is a required service, as it is the entry point for all operations.
 
+[#content-script-agent]
 == Content Script Agent
 
 The content script agent allows you to run custom Node.js scripts on document content before it is returned by our API.

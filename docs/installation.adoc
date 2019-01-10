@@ -5,11 +5,13 @@ In order to install Xillio API on your premises, you first have to set up the <<
 it is possible to <<configure-additional-features>> to your liking. Once everything is configured, you are ready to
 <<deploy-xillio-api>>.
 
+NOTE: In order to be given access Xillio's Docker images, please contact <<support>>.
+
 [#minimal-configuration]
 == Minimal Configuration
 
 In order to deploy the Xillio API with minimal configuration, consider the `stack.yml` file below. <<architecture>> describes
-what the three listed services are used for.
+what the listed services are used for.
 
 CAUTION: Copying the `REPLACE_ME` values without changing them is a critical security issue!
 
@@ -34,12 +36,11 @@ does not require a login.*
 | It is required for Traefik to run on a manager as the proxy is the entry point for all requests, so is the manager node.
 
 | `engine.image`
-| The image of Xillio Engine to use. We recommend using the latest release which can be found on
+| The image of Xillio Engine to use. We recommend to use the latest release which can be found on
 https://api.xill.io/v2/system/version or on https://cloud.docker.com/u/xillio/repository/docker/xillio/xillio-engine.
-In order to be given access to these images, please contact <<support>>.
 
 | `engine.deploy.replicas`
-| The amount of instances of Xillio Engine you would like to run. Increase this according to the amount of load.
+| The number of instances of Xillio Engine you would like to run. Increase this according to the amount of load.
 *Must be at least 1.*
 
 | `engine.environment.spring.datasource.username`
@@ -54,17 +55,17 @@ which will be used to sign these tokens.  *We highly recommend you to change thi
 length of 50 to 70 characters.
 
 | `engine.environment.engine.single-tenant-mode`
-| This boots the Xillio Engine in single tenant mode. We recommend this using this unless you need a multitenancy system.
+| This deploys the Xillio Engine in single tenant mode. We recommend using this unless you need a multitenancy system.
 // TODO: Add reference to additional feature configuration multitenancy.
 
 | `postgres.environment.POSTGRES_USER`
-| The username to access the postgres instance with.
+| The username to access the PostgreSQL instance with.
 
 | `postgres.environment.POSTGRES_PASSWORD`
-| The username to access the postgres instance with. *We highly recommend you to change this value.*
+| The username to access the PostgreSQL instance with. *We highly recommend you to change this value.*
 
 | `postgres.environment.command`
-| We require PostgreSQL to expose more connection than default in order to limit throttling by the Xillio API on high loads.
+| We require PostgreSQL to expose more connections than the default in order to limit throttling by the Xillio API on high loads.
 
 |===
 
@@ -76,12 +77,12 @@ With the stack file configured, you can either <<configure-additional-features>>
 As described in <<architecture>>, there are more services which expose additional features. These features are not
 present by default and need to be enabled. This requires additional configuration.
 
-=== Documentation
+=== Reference Documentation
 
 It is possible to also host the reference documentation belong to the Xillio Engine version used. In order to do so,
-add the following section to the `stack.yml` file:
+append the following section to the `stack.yml` file:
 
-NOTE: Note that the version used in `docs.image` should be the same as used in `engine.image`.
+NOTE: Note that the version used in `docs.image` *must* be the same as used in `engine.image`.
 
 .stack.yml
 [source,yaml,subs="attributes"]
@@ -96,7 +97,52 @@ NOTE: Note that the version used in `docs.image` should be the same as used in `
 
 The documentation can now be found on the path `/docs`.
 
-// TODO: === Content Scripts
+=== Content Scripts
+
+In order to also add the feature to use the <<content-script-agent>>, we need a few more services. In order to let
+the Xillio Engine communicate with the `scriptagent` service we need to have a message broker service in between.
+This is the `rabbit` service. In order to add these two services, append the following section to the `stack.yml` file:
+
+NOTE: Note that the version used in `scriptagent.image` *must* be the same as used in `engine.image`.
+
+CAUTION: Copying the `REPLACE_ME` values without changing them is a critical security issue!
+
+.stack.yml
+[source,yaml,subs="attributes"]
+----
+  rabbit:
+    image: rabbitmq:3-management
+    environment:
+      RABBITMQ_DEFAULT_USER: REPLACE_ME
+      RABBITMQ_DEFAULT_PASS: REPLACE_ME
+    ports:
+    - 15672:15672
+
+  scriptagent:
+    image: xillio/xillio-engine-script-agent:2.2.16
+    deploy:
+      replicas: 1
+    environment:
+      AMQP_HOST: rabbit
+      AMQP_USER: REPLACE_ME
+      AMQP_PASS: REPLACE_ME
+----
+
+Furthermore, we need to add the RabbitMQ credentials to the Xillio Engine by adding them to `engine.environment`:
+
+.stack.yml
+[source,yaml,subs="attributes"]
+----
+    environment:
+      spring.rabbitmq.username: REPLACE_ME
+      spring.rabbitmq.password: REPLACE_ME
+----
+
+// TODO: See whether we want to do this with a table as well as done in the minimal configuration example.
+
+The value in `rabbit.environment.RABBITMQ_DEFAULT_USER` must be the same as `scriptagent.environment.AMQP_USER` and
+`engine.environment.spring.rabbitmq.username`. The value in `rabbit.environment.RABBITMQ_DEFAULT_PASS` must be the same
+as `scriptagent.environment.AMQP_PASS` and `engine.environment.spring.rabbitmq.password`.
 
 // TODO: === Multitenancy
 
