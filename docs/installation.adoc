@@ -1,4 +1,4 @@
-[#prerequisites]
+[#installation]
 = Installation Manual
 
 // TODO: Add installation manual introduction.
