@@ -12,6 +12,8 @@ The Docker package for Ubuntu is called `docker-ce`.
 We recommend that you have a fresh installation of the latest version of Docker.
 For the complete installation manual for Docker on Ubuntu, see https://docs.docker.com/install/linux/docker-ce/ubuntu.
 
+NOTE: We allowed the user on the manager node to run Docker commands with root privileges. You can achieve this by executing `sudo usermod -aG docker $(whoami)`. This does require logging out and back in for this user.
+
 == Initialize a Docker Swarm
 
 A swarm knows two roles: _manager_ and _worker_.
@@ -71,3 +73,13 @@ docker node update swarm-worker-01 --label-add storage=true
 ----
 
 Your swarm is now ready for work.
+
+=== Login to DockerHub
+
+In order to pull Xillio's images, the manager node needs to be logged in to DockerHub with credentials that
+have access to our Docker repositories. In order to do so run:
+
+[source, bash]
+----
+docker login
+----

@@ -5,6 +5,11 @@
 
 == Minimal Deployment Guide
 
+This guide will help you to quickly setup Xillio API with minimal configuration and features. For additional features
+see <<install-additional-features>>.
+
+=== Configuration
+
 In order to deploy the Xillio API with minimal configuration, consider the stack file below:
 
 CAUTION: Copying the `REPLACE_ME` values without changing them is a critical security issue!
@@ -15,20 +20,67 @@ CAUTION: Copying the `REPLACE_ME` values without changing them is a critical sec
 include::stack.yml[]
 ----
 
-// TODO: Explain yml and fields & step-by-step installation guide.
+// TODO: Explain yml and fields
 
-In order to deploy the stack file above, run the following command on the manager node:
+=== Deploy Xillio API
+
+In order to deploy a stack file, run the following command on the manager node:
 
 [source,bash]
 ----
-$ sudo docker stack deploy xillio --compose-file stack.yml --prune --with-registry-auth
+$ docker stack deploy xillio --compose-file stack.yml --prune --with-registry-auth
 Creating network xillio_default
 Creating service xillio_postgres
 Creating service xillio_proxy
 Creating service xillio_engine
 ----
 
+It is going to take a few minutes to pull the images and boot all services. To see the status of the deployment you can
+execute:
 
+[source,bash]
+----
+ $ docker service ls
+ID                  NAME                MODE                REPLICAS            IMAGE                         PORTS
+vwfmazh43t67        xillio_engine       replicated          2/2                 xillio/xillio-engine:2.2.15
+ub4o6wdbqzhm        xillio_postgres     replicated          1/1                 postgres:10.5
+pu7zepl225lo        xillio_proxy        replicated          1/1                 traefik:1.6                   *:80->80/tcp, *:8080->8080/tcp
+
+----
+
+// TODO: Explain on retrieval of manager IP and maybe a paragraph about linking a domain to the Xillio API.
+
+Once all services have the desired amount on replicas, Xillio API should be up and running. You can now view the proxy
+overview at `http://{{manager-IP}}:8080/`. Browse http://{{manager-IP}}/v2/system/version in order to verify whether
+Xillio API booted correctly.
+
+[install-additional-features]
+== Install Additional Features
 
 // TODO Add additional deployment information regarding additional features -- Docs, Multi-tenancy, Script Agent
+
+== Troubleshooting
+
+If it takes too long for the services to come online, you can check the state of the stack:
+
+```bash
+docker stack ps xillio --no-trunc
+```
+
+You may see errors in the output.
+
+=== Error: no suitable node
+
+You may have forgotten to add the `storage` label to one of your nodes. Check out section: <<assign-storage-label>>.
+
+=== Error: task non-zero exit (1)
+
+One of the services may have been misconfigured. Use `docker service logs <service-name>` to find more details about
+the problem.
+
+=== Error: could not find an available, non-overlapping IPv4 address pool among the defaults to assign to the network
+
+This might occur due to conflicts with OpenVPN. Stop the OpenVPN service with `service openvpn stop` in order to remove
+the conflict.
+
 
