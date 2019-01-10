@@ -81,6 +81,9 @@ Your swarm is now ready for work.
 In order to pull Xillio's images, the manager node needs to be logged in to DockerHub with credentials that
 have access to our Docker repositories. In order to do so run:
 
+TIP: By default, docker will store your credentials in a file in your home directory. If you want to prevent this you can
+configure a credential helper: https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
 [source, bash]
 ----
 $ docker login
@@ -90,6 +93,3 @@ Username: mruser
 Password:
 Login Succeeded
 ----
-
-TIP: By default, docker will store your credentials in a file in your home directory. If you want to prevent this you can
-configure a credential helper: https://docs.docker.com/engine/reference/commandline/login/#credentials-store

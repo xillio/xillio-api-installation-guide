@@ -8,17 +8,37 @@ it is possible to <<configure-additional-features>> to your liking. Once everyth
 [#minimal-configuration]
 == Minimal Configuration
 
-In order to deploy the Xillio API with minimal configuration, consider the stack file below:
+In order to deploy the Xillio API with minimal configuration, consider the `stack.yml` file below. <<architecture>> describes
+what the three listed services are used for.
 
 CAUTION: Copying the `REPLACE_ME` values without changing them is a critical security issue!
 
+// TODO: Is configuration of Xillio Client ID & Secret advised? It is still used in the /oauth endpoint... Defaults to xillio/xillio
 .stack.yml
 [source,yaml,subs="attributes"]
 ----
 include::stack.yml[]
 ----
 
+Some lines in this stack file need some additional elaboration or configuration.
+
+.Platform Requirements
+[cols="2,6"]
+|===
+| Stack file line | Elaboration
+
+| proxy.ports
+| All traffic goes through port 80. Port 8080 exposes Traefik's dashboard to overview your proxy. *Note that the dashboard
+does not require a login.*
+
+| `proxy.deploy.placements.constraints`
+| It is required for Traefik to run on a manager as the proxy is the entry point for all requests, so is the manager node.
+
 // TODO: Explain yml and fields
+
+|===
+
+With the stack file configured, you can either <<configure-additional-features>> or <<deploy-xillio-api>>.
 
 [#configure-additional-features]
 == Configure Additional Features
@@ -51,7 +71,7 @@ execute:
 
 [source,bash]
 ----
- $ docker service ls
+$ docker service ls
 ID                  NAME                MODE                REPLICAS            IMAGE                         PORTS
 vwfmazh43t67        xillio_engine       replicated          2/2                 xillio/xillio-engine:2.2.15
 ub4o6wdbqzhm        xillio_postgres     replicated          1/1                 postgres:10.5
