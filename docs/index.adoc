@@ -20,4 +20,6 @@ include::architecture.adoc[]
 
 include::installation.adoc[]
 
+// TODO: Getting started as in on-prem repository.
+
 :leveloffset: -1

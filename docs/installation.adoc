@@ -1,14 +1,12 @@
 [#installation]
 = Installation Manual
 
-// TODO: Add installation manual introduction.
+In order to install Xillio API on your premises, you first have to setup the <<minimal-configuration>>. On top of that,
+it is possible to <<configure-additional-features>> to your liking. Once everything is configured, you are ready to
+<<deploy-xillio-api>>.
 
-== Minimal Deployment Guide
-
-This guide will help you to quickly setup Xillio API with minimal configuration and features. For additional features
-see <<install-additional-features>>.
-
-=== Configuration
+[#minimal-configuration]
+== Minimal Configuration
 
 In order to deploy the Xillio API with minimal configuration, consider the stack file below:
 
@@ -22,7 +20,20 @@ include::stack.yml[]
 
 // TODO: Explain yml and fields
 
-=== Deploy Xillio API
+[#configure-additional-features]
+== Configure Additional Features
+
+As described in <<architecture>>, there are more services which expose additional features. These features are not
+present by default and need to be enabled. This requires additional configuration.
+
+// TODO: === Documentation
+
+// TODO: === Content Scripts
+
+// TODO: === Multitenancy
+
+[#deploy-xillio-api]
+== Deploy Xillio API
 
 In order to deploy a stack file, run the following command on the manager node:
 
@@ -49,22 +60,11 @@ pu7zepl225lo        xillio_proxy        replicated          1/1                 
 ----
 
 // TODO: Explain on retrieval of manager IP and maybe a paragraph about linking a domain to the Xillio API.
+// TODO: Transfer the section about testing locally.
 
 Once all services have the desired amount on replicas, Xillio API should be up and running. You can now view the proxy
-overview at `http://{{manager-IP}}:8080/`. Browse http://{{manager-IP}}/v2/system/version in order to verify whether
+overview at `http://{{manager-IP}}:8080/`. Browse `http://{{manager-IP}}/v2/system/version` in order to verify whether
 Xillio API booted correctly.
-
-[#install-additional-features]
-== Install Additional Features
-
-As described in <<architecture>>, there are more services which expose additional features. These features are not
-present by default and need to be enabled. This requires additional configuration.
-
-// TODO: === Documentation
-
-// TODO: === Content Scripts
-
-// TODO: === Multitenancy
 
 == Troubleshooting
 
