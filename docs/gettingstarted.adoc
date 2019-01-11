@@ -8,4 +8,163 @@ The examples shown here use the https://curl.haxx.se/download.html[curl] command
 For all examples the default tenant 'tenant' will be used, with 'yourdomain.com' as the domain name.
 For your local deployment the Xillio Engine domain name configured in <<network-configuration>> should be used instead.
 
-//TODO : add more chapters here!
+== Checking if the Xillio API is Reachable
+
+The ping endpoint is an easy way to verify whether you can reach the Xillio API from your computer.
+This call does not require authentication or authorization and can therefore be easily executed in your browser.
+Alternatively you can use curl to make the request, using the following command:
+
+```bash
+curl http://tenant.yourdomain.com/v2/system/ping
+```
+
+You should see the following response:
+
+.Ping Response
+```json
+{
+  "tenant" : "tenant",
+  "serverTime" : "2018-09-11T09:02:43.897Z"
+}
+```
+
+== Getting an Authentication Token
+
+The Xillio API uses OAuth2 with JWT tokens for authentication.
+
+When the Xillio API is first started, a default tenant called 'tenant' and user called 'user' will be created.
+The default client id and secret are 'client' and 'secret', and the default user password is 'password'.
+
+IMPORTANT: It is highly recommended to change the default credentials immediately.
+
+You can get a token using the following command:
+
+```bash
+curl -X POST http://tenant.yourdomain.com/oauth/token \
+  -u '<clientId>:<clientSecret>' \
+  -H 'Content-Type: application/x-www-form-urlencoded' \
+  -d 'grant_type=password&username=<username>&password=<password>'
+```
+
+Make sure to replace `<clientId>`, `<clientSecret>`, `<username>` and `<password>` with your credentials.
+If authentication is successful you will see a response like:
+
+.Authentication Success Response
+```json
+{
+  "access_token" : "eyJhbGciOiJIUzI1N... (token truncated for readability)",
+  "token_type" : "bearer",
+  "expires_in" : 43199,
+  "scope" : "user users configurations contentscripts query:configure query:execute types templates entities contents tenant",
+  "jti" : "edb2ff87-e567-4e53-9709-c6043d2c2b33"
+}
+```
+
+The `access_token` can then be used in subsequent calls to the API.
+This token has a certain lifespan, indicated by the `expires_in` value.
+After the token has expired you can simply request a new token using the same request.
+
+From here on, `<accessToken>` will be used in all examples where a token is required.
+When executing a request, this should be replaced with your access token.
+
+== Changing User Credentials
+
+To update a user, a `PUT` request can be made to the `/v2/users/<username>` endpoint with the updated user info.
+Here `<username>` should be replaced with the username of the user you want to update.
+This can be done with the following command:
+
+```bash
+curl -X PUT http://tenant.yourdomain.com/v2/users/<username> \
+  -H 'Authorization: Bearer <accessToken>' \
+  -H 'Content-Type: application/json' \
+  -d '{ "username": "<newUsername>", "password": "<newPassword>" }'
+```
+
+Make sure to replace `<newUsername>` and `<newPassword>` with the updated username and password.
+This will return the updated user:
+
+.Update User Response
+```json
+{
+  "id" : "2c91808465c397670165c397cc93005a",
+  "username" : "<newUsername>",
+  "displayName" : "user",
+  "email" : "user@example.com",
+  "roles" : [ "ENTITY_ADMIN", "ENTITY_USER" ]
+}
+```
+
+== Creating a Configuration
+
+Before you can start browsing repositories, you need to create a configuration.
+This can be done by making a `POST` request to the `/v2/configurations` endpoint, with a configuration as the request body.
+The configuration should contain `name`, `configurationType` and `config` fields.
+For example, to create a Dropbox configuration:
+
+```bash
+curl -X POST http://tenant.yourdomain.com/v2/configurations \
+  -H 'Authorization: Bearer <accessToken>' \
+  -H 'Content-Type: application/json' \
+  -d '{
+     "name": "My Dropbox Configuration",
+     "configurationType": "Dropbox",
+     "config": {
+       "token": "yu2DM6FpYBWVbEXAMPLEX9OUkgnQq"
+     }
+   }'
+```
+
+For all available configuration types and their specific config properties, see the https://docs.xill.io/#connectors[connectors section of the reference documentation].
+The response will be the created configuration, with passwords and tokens masked:
+
+.Create Configuration Response
+```json
+{
+  "id" : "2c91808465c397670165c3988280016c",
+  "name" : "My Dropbox Configuration",
+  "configurationType" : "Dropbox",
+  "passthroughAuthorization" : false,
+  "config" : {
+    "token" : "******"
+  }
+}
+```
+
+== Getting a List of Configured Repositories
+
+To start browsing repositories you need to request the list of configurations.
+This can be done by requesting the children of the root entity at `/v2/entities` with the following command:
+
+```bash
+curl http://tenant.yourdomain.com/v2/entities?scope=children \
+  -H 'Authorization: Bearer <accessToken>'
+```
+
+This will return a list of configured repositories as entities, for example:
+
+.Root Entity Children Response
+```json
+{
+  "children" : [ {
+    "id" : "http://tenant.yourdomain.com/v2/entities/2c91808465c397670165c3988280016c",
+    "xdip" : "xdip://2c91808465c397670165c3988280016c/",
+    "kind" : "Dropbox",
+    "original" : {
+      "name" : {
+        "systemName" : "2c91808465c397670165c3988280016c",
+        "displayName" : "My Dropbox Configuration"
+      }
+    },
+    "modified" : {
+      "name" : {
+        "systemName" : "2c91808465c397670165c3988280016c",
+        "displayName" : "My Dropbox Configuration"
+      }
+    }
+  } ]
+}
+```
+
+The configuration id of each configuration can be found in the `name.systemName` decorator field.
+From here you can start browsing a specific repository by requesting the children of a configuration entity.
+
