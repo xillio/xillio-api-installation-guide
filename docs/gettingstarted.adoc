@@ -1,12 +1,12 @@
 [[getting-started]]
 = Getting Started
 
-This chapter will provide some first steps to get started with using the Xillio API.
-For the complete reference documentation, see https://docs.xill.io.
+This chapter will provide some first steps to get started with using the Xillio API. For the complete reference
+documentation, see https://docs.xill.io.
 
-The examples shown here use the https://curl.haxx.se/download.html[curl] command line tool, which is freely available for many different platforms.
-For all examples the default tenant 'tenant' will be used, with 'yourdomain.com' as the domain name.
-For your local deployment the Xillio Engine domain name configured in <<network-configuration>> should be used instead.
+The examples shown here use the https://curl.haxx.se/download.html[curl] command line tool, which is freely available
+for many different platforms. For all examples the domain 'yourdomain.com' is used. This domain should be linked to the
+manager node. The IP-address could also be used instead of the domain.
 
 == Checking if the Xillio API is Reachable
 
@@ -15,7 +15,7 @@ This call does not require authentication or authorization and can therefore be 
 Alternatively you can use curl to make the request, using the following command:
 
 ```bash
-curl http://tenant.yourdomain.com/v2/system/ping
+curl http://yourdomain.com/v2/system/ping
 ```
 
 You should see the following response:
@@ -32,15 +32,15 @@ You should see the following response:
 
 The Xillio API uses OAuth2 with JWT tokens for authentication.
 
-When the Xillio API is first started, a default tenant called 'tenant' and user called 'user' will be created.
-The default client id and secret are 'client' and 'secret', and the default user password is 'password'.
+When the Xillio API is first started, a default user called 'user' will be created with `password` as password.
+The client id and secret are as configured in <<minimal-configuration>>.
 
-IMPORTANT: It is highly recommended to change the default credentials immediately.
+CAUTION: It is highly recommended to change the default credentials.
 
 You can get a token using the following command:
 
 ```bash
-curl -X POST http://tenant.yourdomain.com/oauth/token \
+curl -X POST http://yourdomain.com/oauth/token \
   -u '<clientId>:<clientSecret>' \
   -H 'Content-Type: application/x-www-form-urlencoded' \
   -d 'grant_type=password&username=<username>&password=<password>'
@@ -74,7 +74,7 @@ Here `<username>` should be replaced with the username of the user you want to u
 This can be done with the following command:
 
 ```bash
-curl -X PUT http://tenant.yourdomain.com/v2/users/<username> \
+curl -X PUT http://yourdomain.com/v2/users/<username> \
   -H 'Authorization: Bearer <accessToken>' \
   -H 'Content-Type: application/json' \
   -d '{ "username": "<newUsername>", "password": "<newPassword>" }'
@@ -102,7 +102,7 @@ The configuration should contain `name`, `configurationType` and `config` fields
 For example, to create a Dropbox configuration:
 
 ```bash
-curl -X POST http://tenant.yourdomain.com/v2/configurations \
+curl -X POST http://yourdomain.com/v2/configurations \
   -H 'Authorization: Bearer <accessToken>' \
   -H 'Content-Type: application/json' \
   -d '{
@@ -136,7 +136,7 @@ To start browsing repositories you need to request the list of configurations.
 This can be done by requesting the children of the root entity at `/v2/entities` with the following command:
 
 ```bash
-curl http://tenant.yourdomain.com/v2/entities?scope=children \
+curl http://yourdomain.com/v2/entities?scope=children \
   -H 'Authorization: Bearer <accessToken>'
 ```
 

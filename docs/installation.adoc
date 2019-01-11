@@ -10,8 +10,8 @@ NOTE: In order to be given access Xillio's Docker images, please contact <<suppo
 [#minimal-configuration]
 == Minimal Configuration
 
-In order to deploy the Xillio API with minimal configuration, consider the `stack.yml` file below. <<architecture>> describes
-what the listed services are used for.
+In order to deploy the Xillio API with minimal configuration, consider the `stack.yml` file below. <<architecture>>
+describes what the listed services are used for.
 
 CAUTION: Copying the `REPLACE_ME` values without changing them is a critical security issue!
 
@@ -28,11 +28,12 @@ Some lines in this stack file need some additional elaboration or configuration.
 | Stack file line | Elaboration
 
 | `proxy.ports`
-| All traffic goes through port 80. Port 8080 exposes Traefik's dashboard to overview your proxy. *Note that the dashboard
-does not require a login.*
+| All traffic goes through port 80. Port 8080 exposes Traefik's dashboard to overview your proxy. *Note that the
+dashboard does not require a login.*
 
 | `proxy.deploy.placements.constraints`
-| It is required for Traefik to run on a manager as the proxy is the entry point for all requests, so is the manager node.
+| It is required for Traefik to run on a manager as the proxy is the entry point for all requests, so is the manager
+node.
 
 | `engine.image`
 | The image of Xillio Engine to use. We recommend to use the latest release which can be found on
@@ -66,7 +67,8 @@ length of 50 to 70 characters.
 | The username to access the PostgreSQL instance with. *We highly recommend you to change this value.*
 
 | `postgres.command`
-| We require PostgreSQL to expose more connections than the default in order to limit throttling by the Xillio API on high loads.
+| We require PostgreSQL to expose more connections than the default in order to limit throttling by the Xillio API on
+high loads.
 
 |===
 
@@ -183,13 +185,12 @@ pu7zepl225lo        xillio_proxy        replicated          1/1                 
 
 ----
 
-// TODO: Explain on retrieval of manager IP and maybe a paragraph about linking a domain to the Xillio API.
+Once all services have the desired amount on replicas, Xillio API should be up and running. You can now access the Xillio
+API, on the manager, node through `http://127.0.0.1/v2` and `http://127.0.0.1/oauth`. The documentation (if configured)
+is hosted on `http://127.0.0.1/docs`. To see Traefik's proxy dashboard you could browse to `http://127.0.0.1:8080`.
 
-Once all services have the desired amount on replicas, Xillio API should be up and running. You can now access the Xillio API through `http://127.0.0.1/v2` and `http://127.0.0.1/oauth`. The documentation (if configured) is hosted on `http://127.0.0.1/docs`.
-
-To see Traefik's proxy dashboard you could browse to `http://127.0.0.1:8080`.
-
-In order to verify that the Xillio API is locally accessible you could perform a GET request to `http://127.0.0.1/v2/system/ping`.
+In order to verify that the Xillio API is locally accessible you could perform a GET request to
+`http://127.0.0.1/v2/system/ping`.
 
 == Troubleshooting
 
