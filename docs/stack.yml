@@ -31,6 +31,8 @@ services:
       spring.datasource.username: xillio_engine
       spring.datasource.password: REPLACE_ME
       engine.token-signing-key: REPLACE_ME
+      engine.xillio-client-id: REPLACE_ME
+      engine.xillio-client-secret: REPLACE_ME
       engine.single-tenant-mode: "true"
 
   postgres:
@@ -43,4 +45,4 @@ services:
       POSTGRES_USER: xillio_engine
       POSTGRES_PASSWORD: REPLACE_ME
       POSTGRES_DB: xillio-engine
-      command: -c 'shared_buffers=512MB' -c 'max_connections=400'
+    command: -c 'shared_buffers=512MB' -c 'max_connections=400'

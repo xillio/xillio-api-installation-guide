@@ -15,7 +15,6 @@ what the listed services are used for.
 
 CAUTION: Copying the `REPLACE_ME` values without changing them is a critical security issue!
 
-// TODO: Is configuration of Xillio Client ID & Secret advised? It is still used in the /oauth endpoint... Defaults to xillio/xillio
 .stack.yml
 [source,yaml,subs="attributes"]
 ----
@@ -54,9 +53,11 @@ https://api.xill.io/v2/system/version or on https://cloud.docker.com/u/xillio/re
 which will be used to sign these tokens.  *We highly recommend you to change this value* to a random string with a
 length of 50 to 70 characters.
 
-| `engine.environment.engine.single-tenant-mode`
-| This deploys the Xillio Engine in single tenant mode. We recommend using this unless you need a <<multitenancy>>
-system.
+| `engine.environment.xillio-client-id`
+| The client ID used in OAuth requests. *We highly recommend you to change this value.*
+
+| `engine.environment.xillio-client-secret`
+| The client secret used in OAuth requests. *We highly recommend you to change this value.*
 
 | `postgres.environment.POSTGRES_USER`
 | The username to access the PostgreSQL instance with.
@@ -64,7 +65,7 @@ system.
 | `postgres.environment.POSTGRES_PASSWORD`
 | The username to access the PostgreSQL instance with. *We highly recommend you to change this value.*
 
-| `postgres.environment.command`
+| `postgres.command`
 | We require PostgreSQL to expose more connections than the default in order to limit throttling by the Xillio API on high loads.
 
 |===
@@ -155,90 +156,6 @@ We need to add the RabbitMQ credentials to the Xillio Engine by adding them to `
       spring.rabbitmq.username: REPLACE_ME
       spring.rabbitmq.password: REPLACE_ME
 ----
-
-
-
-[#multitenancy]
-=== Multitenancy
-
-In order to use a multitenancy system in the Xillio Engine, additional configuration is required. Append the following
-section to the `stack.yml` file:
-
-NOTE: Note that the version used in `admin_server.image` and `admin_portal.image` *must* be the same as used
-in `engine.image`.
-
-CAUTION: Copying the `REPLACE_ME` values without changing them is a critical security issue!
-
-.stack.yml
-[source,yaml,subs="attributes"]
-----
-admin_server:
-    image: xillio/xillio-admin-portal-server:2.2.16
-    deploy:
-      labels:
-        traefik.port: 4000
-        traefik.api.frontend.rule: Host:admin.REPLACE_ME;PathPrefix:/api
-    environment:
-      XILLIO_API_HOST: *.REPLACE_ME
-      XILLIO_API_PUBLIC_URL: http://*.REPLACE_ME
-      XILLIO_TOKEN_URL: http://engine:8080/oauth/token
-      XILLIO_API_URL: http://engine:8080/v2
-      XILLIO_CLIENT_ID: REPLACE_ME
-      XILLIO_CLIENT_SECRET: REPLACE_ME
-      GITHUB_ORGANIZATION: REPLACE_ME
-      GITHUB_CLIENT_ID: REPLACE_ME
-      GITHUB_CLIENT_SECRET: REPLACE_ME
-      CREATE_TENANT_ROLE: REPLACE_ME
-      UPDATE_TENANT_ROLE: REPLACE_ME
-      LIST_TENANTS_ROLE: REPLACE_ME
-      INSPECT_TENANT_ROLE: REPLACE_ME
-      DELETE_TENANT_ROLE: REPLACE_ME
-
-  admin:
-    image: xillio/xillio-admin-portal:2.2.16
-    deploy:
-      labels:
-        traefik.port: 80
-        traefik.static.frontend.rule: Host:admin.REPLACE_ME;PathPrefix:/static
-        traefik.dashboard.frontend.rule: Host:admin.REPLACE_ME
-----
-
-[cols="2,6"]
-|===
-| Stack file line | Elaboration
-
-|admin_server.deploy.labels.traefik.api.frontend.rule
-| //TODO explain this all
-
-
-|===
-
-Furthermore, we need to add the following environment variables to the `engine.environment`. Note that
-`engine.environment.engine.single-tenant-mode` is now set to `false`.
-
-.stack.yml
-[source,yaml,subs="attributes"]
-----
-    environment:
-      engine.xillio-client-id: REPLACE_ME
-      engine.xillio-client-secret: REPLACE_ME
-      engine.host: xillio-engine
-      engine.single-tenant-mode: "false"
-----
-
-
-[cols="2,6"]
-|===
-| Stack file line | Elaboration
-
-| environment.engine.xillio-client-id:
-| TODO
-
-| environment.engine.xillio-client-secret
-| TODO
-
-|===
-
 
 [#deploy-xillio-api]
 == Deploy Xillio API
