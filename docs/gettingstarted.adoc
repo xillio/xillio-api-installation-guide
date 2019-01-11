@@ -146,7 +146,7 @@ This will return a list of configured repositories as entities, for example:
 ```json
 {
   "children" : [ {
-    "id" : "http://tenant.yourdomain.com/v2/entities/2c91808465c397670165c3988280016c",
+    "id" : "http://yourdomain.com/v2/entities/2c91808465c397670165c3988280016c",
     "xdip" : "xdip://2c91808465c397670165c3988280016c/",
     "kind" : "Dropbox",
     "original" : {

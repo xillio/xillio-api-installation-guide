@@ -4,7 +4,6 @@
 The Xillio API is a modular system.
 We have developed isolated services which can be enabled or disabled to match your use-case and scale to your needs.
 
-// TODO This diagram needs updating as we do not refer to the Xillio Admin Portal
 image::images/api/architecture-diagram.png[Xillio API Services, width="60%", align="center"]
 
 The simplest deployment contains:
