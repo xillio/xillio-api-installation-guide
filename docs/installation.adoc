@@ -36,7 +36,7 @@ does not require a login.*
 
 | `engine.image`
 | The image of Xillio Engine to use. We recommend to use the latest release which can be found on
-https://api.xill.io/v2/system/version or on https://cloud.docker.com/u/xillio/repository/docker/xillio/xillio-engine.
+https://cloud.docker.com/u/xillio/repository/docker/xillio/xillio-engine.
 
 | `engine.deploy.replicas`
 | The number of instances of Xillio Engine you would like to run. Increase this according to the amount of load.
@@ -129,7 +129,17 @@ CAUTION: Copying the `REPLACE_ME` values without changing them is a critical sec
       AMQP_PASS: REPLACE_ME
 ----
 
-Some lines in this stack file need some additional elaboration:
+We need to add the RabbitMQ credentials to the Xillio Engine by adding them to `engine.environment`:
+
+.stack.yml
+[source,yaml,subs="attributes"]
+----
+    environment:
+      spring.rabbitmq.username: REPLACE_ME
+      spring.rabbitmq.password: REPLACE_ME
+----
+
+Some lines in this addition to the stack file need some additional elaboration:
 
 [cols="2,6"]
 |===
@@ -145,17 +155,6 @@ Some lines in this stack file need some additional elaboration:
 | increasing this value will allow more load on this service. *Must be at least 1* for this feature to work.
 
 |===
-
-
-We need to add the RabbitMQ credentials to the Xillio Engine by adding them to `engine.environment`:
-
-.stack.yml
-[source,yaml,subs="attributes"]
-----
-    environment:
-      spring.rabbitmq.username: REPLACE_ME
-      spring.rabbitmq.password: REPLACE_ME
-----
 
 [#deploy-xillio-api]
 == Deploy Xillio API
@@ -186,9 +185,11 @@ pu7zepl225lo        xillio_proxy        replicated          1/1                 
 
 // TODO: Explain on retrieval of manager IP and maybe a paragraph about linking a domain to the Xillio API.
 
-Once all services have the desired amount on replicas, Xillio API should be up and running. You can now view the proxy
-overview at `http://{{manager-IP}}:8080/`. Browse `http://{{manager-IP}}/v2/system/version` in order to verify whether
-Xillio API booted correctly.
+Once all services have the desired amount on replicas, Xillio API should be up and running. You can now access the Xillio API through `http://127.0.0.1/v2` and `http://127.0.0.1/oauth`. The documentation (if configured) is hosted on `http://127.0.0.1/docs`.
+
+To see Traefik's proxy dashboard you could browse to `http://127.0.0.1:8080`.
+
+In order to verify that the Xillio API is locally accessible you could perform a GET request to `http://127.0.0.1/v2/system/ping`.
 
 == Troubleshooting
 

@@ -20,8 +20,6 @@ include::architecture.adoc[]
 
 include::installation.adoc[]
 
-include::localtesting.adoc[]
-
 include::gettingstarted.adoc[]
 
 :leveloffset: -1

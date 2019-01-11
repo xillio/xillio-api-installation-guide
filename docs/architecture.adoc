@@ -4,6 +4,7 @@
 The Xillio API is a modular system.
 We have developed isolated services which can be enabled or disabled to match your use-case and scale to your needs.
 
+// TODO This diagram needs updating as we do not refer to the Xillio Admin Portal
 image::images/api/architecture-diagram.png[Xillio API Services, width="60%", align="center"]
 
 The simplest deployment contains:
@@ -54,7 +55,7 @@ NOTE: This is a required service.
 === PostgreSQL
 
 Xillio API requires PostgreSQL to store its configuration.
-In this database, we store tenants, users, target system configuration, content scripts, etc...
+In this database, we store tenants, users, target system configuration, content scripts, etc.
 We do *NOT* use this database to store any documents or metadata about those documents.
 You could even opt to not store any target system credentials by using our https://docs.xill.io/#_passthrough_authorization[Passthrough Authorization] feature.
 
