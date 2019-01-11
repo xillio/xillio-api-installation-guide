@@ -128,7 +128,25 @@ CAUTION: Copying the `REPLACE_ME` values without changing them is a critical sec
       AMQP_PASS: REPLACE_ME
 ----
 
-Furthermore, we need to add the RabbitMQ credentials to the Xillio Engine by adding them to `engine.environment`:
+Some lines in this stack file need some additional elaboration:
+
+[cols="2,6"]
+|===
+| Stack file line | Elaboration
+
+| rabbit.environment.RABBITMQ_DEFAULT_USER
+| must be the same as `scriptagent.environment.AMQP_USER` and `engine.environment.spring.rabbitmq.username`.
+
+| rabbit.environment.RABBITMQ_DEFAULT_PASS
+| must be the same as `scriptagent.environment.AMQP_PASS` and `engine.environment.spring.rabbitmq.password`.
+
+| scriptagent.deploy.replicas
+| increasing this value will allow more load on this service. *Must be at least 1* for this feature to work.
+
+|===
+
+
+We need to add the RabbitMQ credentials to the Xillio Engine by adding them to `engine.environment`:
 
 .stack.yml
 [source,yaml,subs="attributes"]
@@ -138,14 +156,7 @@ Furthermore, we need to add the RabbitMQ credentials to the Xillio Engine by add
       spring.rabbitmq.password: REPLACE_ME
 ----
 
-// TODO: See whether we want to do this with a table as well as done in the minimal configuration example.
 
-The value in `rabbit.environment.RABBITMQ_DEFAULT_USER` must be the same as `scriptagent.environment.AMQP_USER` and
-`engine.environment.spring.rabbitmq.username`. The value in `rabbit.environment.RABBITMQ_DEFAULT_PASS` must be the same
-as `scriptagent.environment.AMQP_PASS` and `engine.environment.spring.rabbitmq.password`.
-
-Increase `scriptagent.deploy.replicas` in order to allow more load on this service. *Must be at least 1* for this
-feature to work.
 
 [#multitenancy]
 === Multitenancy
@@ -192,6 +203,16 @@ admin_server:
         traefik.dashboard.frontend.rule: Host:admin.REPLACE_ME
 ----
 
+[cols="2,6"]
+|===
+| Stack file line | Elaboration
+
+|admin_server.deploy.labels.traefik.api.frontend.rule
+| //TODO explain this all
+
+
+|===
+
 Furthermore, we need to add the following environment variables to the `engine.environment`. Note that
 `engine.environment.engine.single-tenant-mode` is now set to `false`.
 
@@ -205,8 +226,18 @@ Furthermore, we need to add the following environment variables to the `engine.e
       engine.single-tenant-mode: "false"
 ----
 
-// TODO: I am still not sure why we need engine.host. I see it is only used for Sentry and Influx..
-// TODO: Explain fields
+
+[cols="2,6"]
+|===
+| Stack file line | Elaboration
+
+| environment.engine.xillio-client-id:
+| TODO
+
+| environment.engine.xillio-client-secret
+| TODO
+
+|===
 
 
 [#deploy-xillio-api]
@@ -237,7 +268,6 @@ pu7zepl225lo        xillio_proxy        replicated          1/1                 
 ----
 
 // TODO: Explain on retrieval of manager IP and maybe a paragraph about linking a domain to the Xillio API.
-// TODO: Transfer the section about testing locally.
 
 Once all services have the desired amount on replicas, Xillio API should be up and running. You can now view the proxy
 overview at `http://{{manager-IP}}:8080/`. Browse `http://{{manager-IP}}/v2/system/version` in order to verify whether

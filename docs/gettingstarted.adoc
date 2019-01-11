@@ -1,0 +1,11 @@
+[[getting-started]]
+= Getting Started
+
+This chapter will provide some first steps to get started with using the Xillio API.
+For the complete reference documentation, see https://docs.xill.io.
+
+The examples shown here use the https://curl.haxx.se/download.html[curl] command line tool, which is freely available for many different platforms.
+For all examples the default tenant 'tenant' will be used, with 'yourdomain.com' as the domain name.
+For your local deployment the Xillio Engine domain name configured in <<network-configuration>> should be used instead.
+
+//TODO : add more chapters here!

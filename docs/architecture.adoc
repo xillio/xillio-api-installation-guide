@@ -34,9 +34,9 @@ If you expect to make about 20 calls a second, we recommend you run 15 to 20 age
 
 == Xillio Admin Portal
 
-// TODO: Give the impression that multitenancy is something that is enabled if configured additionally as by minimal configuration it is not.
-
 We provide a tenant administration UI which allows you to manage tenants in a multi-tenant environment.
+Multitenancy needs to be additionally configured. See <<installation.adoc#multitenancy, Multitenancy>> on how to set this up.
+
 Management of these tenants is possible through the API but the Admin Portal service provides a layer on top of that
 in the form of a GitHub organization authenticated user interface.
 
