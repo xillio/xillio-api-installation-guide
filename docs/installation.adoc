@@ -10,8 +10,8 @@ NOTE: In order to be given access Xillio's Docker images, please contact <<suppo
 [#minimal-configuration]
 == Minimal Configuration
 
-In order to deploy the Xillio API with minimal configuration, consider the `stack.yml` file below. <<architecture>>
-describes what the listed services are used for.
+In order to deploy the Xillio API with minimal configuration, consider the `stack.yml` file below. Note that this file must be created on the manager node.
+<<architecture>> describes what the listed services are used for.
 
 CAUTION: Copying the `REPLACE_ME` values without changing them is a critical security issue!
 
@@ -98,7 +98,7 @@ NOTE: Note that the version used in `docs.image` *must* be the same as used in `
         traefik.docs.frontend.rule: PathPrefix:/docs
 ----
 
-The documentation can now be found on the path `/docs`.
+After deployment the documentation can be found on the path `/docs`.
 
 === Content Scripts
 

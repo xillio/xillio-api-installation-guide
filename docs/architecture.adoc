@@ -26,15 +26,15 @@ NOTE: This is a required service, as it is the entry point for all operations.
 
 The content script agent allows you to run custom Node.js scripts on document content before it is returned by our API.
 This service is optional and is only used when you make use of our https://docs.xill.io/#_content_scripts[Content Scripts] feature.
-If this service is used, then the <<rabbitmq>> service is also required.
+If you decide to use this feature however, then the <<rabbitmq>> service is also required.
 
-Depending on your throughput you can scale this agent up.
+Depending on your throughput you can scale the amount of agents up.
 Every agent can run one script at a time and is extremely lightweight.
 If you expect to make about 20 calls a second, we recommend you run 15 to 20 agents.
 
 == Xillio API Documentation
 
-The documentation for the API can be deployed as a service so its version matches the version of the deployed <<rest-api-and-connectors>>.
+The documentation for the API can be deployed as a service so its version matches the version of the deployed Xillio API.
 Alternatively, the latest documentation can be found on https://docs.xill.io.
 
 == Dependencies
@@ -53,7 +53,7 @@ NOTE: This is a required service.
 [#postgresql]
 === PostgreSQL
 
-Xillio API requires PostgreSQL to store its configuration.
+The Xillio API requires PostgreSQL to store its configuration.
 In this database, we store tenants, users, target system configuration, content scripts, etc.
 We do *NOT* use this database to store any documents or metadata about those documents.
 You could even opt to not store any target system credentials by using our https://docs.xill.io/#_passthrough_authorization[Passthrough Authorization] feature.
