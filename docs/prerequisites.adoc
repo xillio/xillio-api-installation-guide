@@ -12,9 +12,9 @@ The Docker package for Ubuntu is called `docker-ce`.
 We recommend that you have a fresh installation of the latest version of Docker.
 For the complete installation manual for Docker on Ubuntu, see https://docs.docker.com/install/linux/docker-ce/ubuntu.
 
-NOTE: We allowed the user on the manager node to run Docker commands with root privileges.
-You can achieve this by executing `sudo usermod -aG docker $(whoami)`. This does require logging out and back
-in for this user.
+NOTE: Docker needs escalated privileges for its commands. We allowed the user on the manager node to run Docker commands
+by adding the user to the `docker` group. You can achieve this by executing `sudo usermod -aG docker $(whoami)`.
+This does require logging out and back in for this user.
 
 == Initialize a Docker Swarm
 
@@ -53,9 +53,9 @@ $ docker swarm join --token <token> 10.1.10.175:2377
 [[assign-storage-label]]
 === Assign a Storage Node
 
-The PostgreSQL database requires persistent storage.
-The easiest way to achieve this is by locking it to a specific server.
-Docker swarm has a _label_ mechanism which allows you to assign labels to nodes in the swarm and do placement logic based on those labels.
+Xillio API uses a PostgreSQL database which requires persistent storage. The easiest way to achieve this is by locking
+it to a specific server. Docker swarm has a _label_ mechanism which allows you to assign labels to nodes in the swarm
+and do placement logic based on those labels.
 
 Connect to the manager and run:
 
