@@ -131,12 +131,13 @@ CAUTION: Copying the `REPLACE_ME` values without changing them is a critical sec
       AMQP_PASS: REPLACE_ME
 ----
 
-We need to add the RabbitMQ credentials to the Xillio Engine by adding them to `engine.environment`:
+We need to add the RabbitMQ host and credentials to the Xillio Engine by adding them to `engine.environment`:
 
 .stack.yml
 [source,yaml,subs="attributes"]
 ----
     environment:
+      spring.rabbitmq.host: rabbit
       spring.rabbitmq.username: REPLACE_ME
       spring.rabbitmq.password: REPLACE_ME
 ----
@@ -147,13 +148,13 @@ Some lines in this addition to the stack file need some additional elaboration:
 |===
 | Stack file line | Elaboration
 
-| rabbit.environment.RABBITMQ_DEFAULT_USER
+| `rabbit.environment.RABBITMQ_DEFAULT_USER`
 | must be the same as `scriptagent.environment.AMQP_USER` and `engine.environment.spring.rabbitmq.username`.
 
-| rabbit.environment.RABBITMQ_DEFAULT_PASS
+| `rabbit.environment.RABBITMQ_DEFAULT_PASS`
 | must be the same as `scriptagent.environment.AMQP_PASS` and `engine.environment.spring.rabbitmq.password`.
 
-| scriptagent.deploy.replicas
+| `scriptagent.deploy.replicas`
 | increasing this value will allow more load on this service. *Must be at least 1* for this feature to work.
 
 |===
