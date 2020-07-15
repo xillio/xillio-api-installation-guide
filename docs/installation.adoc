@@ -77,8 +77,9 @@ With the stack file configured, you can either <<configure-additional-features>>
 [#configure-additional-features]
 == Configure Additional Features
 
-As described in <<architecture>>, there are more services which expose additional features. These features are not
-present by default and need to be enabled. This requires additional configuration.
+This section will show more features that can be configured on top of the aforementioned minimal configuration.
+Furthermore, as described in <<architecture>>, there are more services which expose additional features as well.
+These features are not present by default and need to be enabled. This requires additional configuration.
 
 === Reference Documentation
 
@@ -99,6 +100,39 @@ NOTE: Note that the version used in `docs.image` *must* be the same as used in `
 ----
 
 After deployment the documentation can be found on the path `/docs`.
+
+=== Installing self-signed certificates
+
+In order to ensure secure connections in a private cloud, you might need to trust self-signed certificates issued by
+a private Certificate Authority. In order to do so, you can install these certificates in the trust store of the JVM
+by doing the following.
+
+To let the container install self-signed certificates, you need to make sure that these certificates are exposed in the
+directory indicated by the `CERT_PATH` environment variable in the Docker container before the service starts. This
+path defaults to `/cert`. You can add your certificates in that directory by mounting a Docker volume as follows:
+
+.stack.yml (service truncated)
+[source,yaml,subs="attributes"]
+----
+  engine:
+    image: xillio/xillio-engine:2.7.1
+    volumes:
+    - /my/path/to/cert/directory:/cert
+----
+
+If you want to install the certificates in a different directory, you can override the `CERT_PATH` variable in the
+`environment` section of the stack file as follows:
+
+.stack.yml (service truncated)
+[source,yaml,subs="attributes"]
+----
+  engine:
+    image: xillio/xillio-engine:2.7.1
+    volumes:
+    - /my/path/to/cert/directory:/custom/cert/path
+    environment:
+      CERT_PATH=/custom/cert/path
+----
 
 === Content Scripts
 
