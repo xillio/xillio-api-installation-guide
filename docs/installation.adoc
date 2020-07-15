@@ -134,6 +134,18 @@ If you want to install the certificates in a different directory, you can overri
       CERT_PATH=/custom/cert/path
 ----
 
+If the certificates were successfully installed in the trust store of the JVM, a log message will be visible early in
+the logs of the container. Note that this is only exposed on the container's logs, not that of the Stack service
+(possibly consisting of multiple container).
+
+[source,bash]
+----
+trying to import /cert/readme.md
+keytool error: java.lang.Exception: Input not an X.509 certificate
+trying to import /cert/my-certificate.ca-bundle
+Certificate was added to keystore
+----
+
 === Content Scripts
 
 In order to also add the feature to use the <<content-script-agent>>, we need a few more services. In order to let
