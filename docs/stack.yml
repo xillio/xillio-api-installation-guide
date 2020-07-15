@@ -19,7 +19,7 @@ services:
         - node.role == manager
 
   engine:
-    image: xillio/xillio-engine:2.6.10
+    image: xillio/xillio-engine:2.7.1
     deploy:
       replicas: 2
       labels:
