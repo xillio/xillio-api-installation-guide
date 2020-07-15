@@ -91,7 +91,7 @@ NOTE: Note that the version used in `docs.image` *must* be the same as used in `
 [source,yaml,subs="attributes"]
 ----
   docs:
-    image: xillio/xillio-engine-docs:2.6.10
+    image: xillio/xillio-engine-docs:2.7.1
     deploy:
       labels:
         traefik.port: 80
@@ -122,7 +122,7 @@ CAUTION: Copying the `REPLACE_ME` values without changing them is a critical sec
     - 15672:15672
 
   scriptagent:
-    image: xillio/xillio-engine-script-agent:2.6.10
+    image: xillio/xillio-engine-script-agent:2.7.1
     deploy:
       replicas: 3
     environment:
@@ -180,7 +180,7 @@ execute:
 ----
 $ docker service ls
 ID                  NAME                MODE                REPLICAS            IMAGE                         PORTS
-vwfmazh43t67        xillio_engine       replicated          2/2                 xillio/xillio-engine:2.6.10
+vwfmazh43t67        xillio_engine       replicated          2/2                 xillio/xillio-engine:2.7.1
 ub4o6wdbqzhm        xillio_postgres     replicated          1/1                 postgres:10.5
 pu7zepl225lo        xillio_proxy        replicated          1/1                 traefik:1.6                   *:80->80/tcp, *:8080->8080/tcp
 
