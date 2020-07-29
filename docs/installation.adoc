@@ -82,7 +82,7 @@ label. As can be seen in the minimal script, we also recommend using a Docker vo
 storage server. Without adding a volume to the container to expose its database to the host server, its data will not
 be persisted on a restart of the `postgres` service, the storage server or the entire stack. With this Docker volume,
 the database content is accessible on the storage server in the directory `/var/lib/docker/volumes/xillio_engine_db`
-(for a stack called `xillio`).
+(on Linux systems for a stack called `xillio`).
 
 We advise you to back-up this data every once in a while to be able to restore the database. This stack configuration
 and guide focuses on having only one server with the `storage` label and therefore we do not advise running multiple
