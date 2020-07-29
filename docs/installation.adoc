@@ -79,9 +79,9 @@ With the stack file configured, you can either <<configure-additional-features>>
 
 As mentioned in <<assign-storage-label>>, we recommend assigning the database to a specific server using the storage
 label. As can be seen in the minimal script, we also recommend using a Docker volume to persist the database on that
-storage server. Without adding a volume to the container to expose its database to the host server, its data will not be
-persisted on a restart of the `postgres` service, the storage server or the entire stack. With this Docker volume, the
-database content is accessible on the storage server in the directory `/var/lib/docker/volumes/xillio_engine_db`
+storage server. Without adding a volume to the container to expose its database to the host server, its data will not
+be persisted on a restart of the `postgres` service, the storage server or the entire stack. With this Docker volume,
+the database content is accessible on the storage server in the directory `/var/lib/docker/volumes/xillio_engine_db`
 (for a stack called `xillio`).
 
 We advise you to back-up this data every once in a while to be able to restore the database. This stack configuration
