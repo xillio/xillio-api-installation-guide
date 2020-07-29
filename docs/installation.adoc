@@ -74,6 +74,25 @@ high loads.
 
 With the stack file configured, you can either <<configure-additional-features>> or <<deploy-xillio-api>>.
 
+[#database-persistence]
+=== Database persistence
+
+As mentioned in <<assign-storage-label>>, we recommend assigning the database to a specific server using the storage
+label. As can be seen in the minimal script, we also recommend using a Docker volume to persist the database on that
+storage server. Without adding a volume to the container to expose its database to the host server, its data will not
+be persisted on a restart of the `postgres` service, the storage server or the entire stack. With this Docker volume,
+the database content is accessible on the storage server in the directory `/var/lib/docker/volumes/xillio_engine_db`
+(on Linux systems for a stack called `xillio`).
+
+We advise you to back-up this data every once in a while to be able to restore the database. This stack configuration
+and guide focuses on having only one server with the `storage` label and therefore we do not advise running multiple
+database servers with this configuration. It would require a more complex deployment structure if you desire multiple
+database servers.
+
+You can also completely control the database on a server managed by yourself. This server must be accessible to all
+the nodes in the Docker swarm. You should then omit the `postgres` service from the stack file and change the variable
+`spring.datasource.url` of the `engine` service to point towards your database server.
+
 [#configure-additional-features]
 == Configure Additional Features
 
@@ -92,7 +111,7 @@ NOTE: Note that the version used in `docs.image` *must* be the same as used in `
 [source,yaml,subs="attributes"]
 ----
   docs:
-    image: xillio/xillio-engine-docs:2.7.1
+    image: xillio/xillio-engine-docs:2.8.0
     deploy:
       labels:
         traefik.port: 80
@@ -107,6 +126,7 @@ In order to ensure secure connections in a private cloud, you might need to trus
 a private Certificate Authority. In order to do so, you can install these certificates in the trust store of the JVM
 by doing the following.
 
+As of version 2.6.17 of Xillio API, it is possible to install these certificates in the trust store of the JVM.
 To let the container install self-signed certificates, you need to make sure that these certificates are exposed in the
 directory indicated by the `CERT_PATH` environment variable in the Docker container before the service starts. This
 path defaults to `/cert`. You can add your certificates in that directory by mounting a Docker volume as follows:
@@ -115,7 +135,7 @@ path defaults to `/cert`. You can add your certificates in that directory by mou
 [source,yaml,subs="attributes"]
 ----
   engine:
-    image: xillio/xillio-engine:2.7.1
+    image: xillio/xillio-engine:2.8.0
     volumes:
     - /my/path/to/cert/directory:/cert
 ----
@@ -127,7 +147,7 @@ If you want to install the certificates in a different directory, you can overri
 [source,yaml,subs="attributes"]
 ----
   engine:
-    image: xillio/xillio-engine:2.7.1
+    image: xillio/xillio-engine:2.8.0
     volumes:
     - /my/path/to/cert/directory:/custom/cert/path
     environment:
@@ -168,7 +188,7 @@ CAUTION: Copying the `REPLACE_ME` values without changing them is a critical sec
     - 15672:15672
 
   scriptagent:
-    image: xillio/xillio-engine-script-agent:2.7.1
+    image: xillio/xillio-engine-script-agent:2.8.0
     deploy:
       replicas: 3
     environment:
@@ -226,7 +246,7 @@ execute:
 ----
 $ docker service ls
 ID                  NAME                MODE                REPLICAS            IMAGE                         PORTS
-vwfmazh43t67        xillio_engine       replicated          2/2                 xillio/xillio-engine:2.7.1
+vwfmazh43t67        xillio_engine       replicated          2/2                 xillio/xillio-engine:2.8.0
 ub4o6wdbqzhm        xillio_postgres     replicated          1/1                 postgres:10.5
 pu7zepl225lo        xillio_proxy        replicated          1/1                 traefik:1.6                   *:80->80/tcp, *:8080->8080/tcp
 

@@ -19,7 +19,7 @@ services:
         - node.role == manager
 
   engine:
-    image: xillio/xillio-engine:2.7.1
+    image: xillio/xillio-engine:2.8.0
     deploy:
       replicas: 2
       labels:
@@ -41,8 +41,13 @@ services:
       placement:
         constraints:
         - node.labels.storage == true
+    volumes:
+    - engine_db:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: xillio_engine
       POSTGRES_PASSWORD: REPLACE_ME
       POSTGRES_DB: xillio-engine
     command: -c 'shared_buffers=512MB' -c 'max_connections=400'
+
+volumes:
+  engine_db:
