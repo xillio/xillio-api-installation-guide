@@ -107,6 +107,7 @@ In order to ensure secure connections in a private cloud, you might need to trus
 a private Certificate Authority. In order to do so, you can install these certificates in the trust store of the JVM
 by doing the following.
 
+As of version 2.6.17 of Xillio API, it is possible to install these certificates in the trust store of the JVM.
 To let the container install self-signed certificates, you need to make sure that these certificates are exposed in the
 directory indicated by the `CERT_PATH` environment variable in the Docker container before the service starts. This
 path defaults to `/cert`. You can add your certificates in that directory by mounting a Docker volume as follows:
